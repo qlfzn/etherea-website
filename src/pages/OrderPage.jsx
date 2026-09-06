@@ -1,12 +1,34 @@
+import { useState } from "react";
+import Header from "../components/Header";
+import ProductView from "../components/orders/ProductView";
+import OrderSummaryView from "../components/orders/OrderSummaryView";
+import PaymentView from "../components/orders/PaymentView";
 
 function Order() {
-    // product gallery: currently only 2 products
-    // gallery include product card that consists -> description, note, price, button to add to cart + count
-    // 
+    const [currentStep, setCurrentStep] = useState(1)
+
+    // function to control step - forward and backward
+    function renderStep() {
+        switch (currentStep) {
+            case 1:
+                return <ProductView onNext={() => setCurrentStep(2)}/>
+            case 2:
+                return (
+                    <OrderSummaryView
+                        onNext={() => setCurrentStep(3)}
+                        onBack={() => setCurrentStep(1)}
+                    />
+                )
+            case 3:
+                return <PaymentView onBack={() => setCurrentStep(2)}/>
+        }
+    }
+
     return (
         <>
         <div>
-            <h1>Order page</h1>
+            <Header />
+            <section id="order-section">{renderStep()}</section>
         </div>
         </>
     )
