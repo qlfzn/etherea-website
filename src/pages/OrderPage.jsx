@@ -6,15 +6,17 @@ import PaymentView from "../components/orders/PaymentView";
 
 function Order() {
     const [currentStep, setCurrentStep] = useState(1)
+    const [orderItems, setOrderItems] = useState([])
 
     // function to control step - forward and backward
     function renderStep() {
         switch (currentStep) {
             case 1:
-                return <ProductView onNext={() => setCurrentStep(2)}/>
+                return <ProductView onNext={(items) => { setOrderItems(items); setCurrentStep(2) }}/>
             case 2:
                 return (
                     <OrderSummaryView
+                        items={orderItems}
                         onNext={() => setCurrentStep(3)}
                         onBack={() => setCurrentStep(1)}
                     />

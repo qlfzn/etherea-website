@@ -7,12 +7,14 @@ const products = [
         id: "femme",
         name: "Etherea Femme",
         notes: "Floral, soft and luminous.",
+        size: "50ml",
         price: 189,
     },
     {
         id: "homme",
         name: "Etherea Homme",
         notes: "Woods, amber and a whisper of smoke.",
+        size: "50ml",
         price: 189,
     },
 ]
@@ -78,7 +80,7 @@ function ProductView({ onNext }) {
                 </p>
                 <button
                     type="button"
-                    onClick={onNext}
+                    onClick={() => onNext(cartItems.map((product) => ({ ...product, quantity: cart[product.id] })))}
                     disabled={totalBottles === 0}
                     className="rounded-lg bg-[#efc978] px-8 py-4 text-lg text-[#2d241b] transition-colors hover:bg-[#e5b95d] disabled:cursor-not-allowed disabled:opacity-50"
                 >
