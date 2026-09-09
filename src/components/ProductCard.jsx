@@ -1,6 +1,6 @@
 import perfumeImage from "../assets/etherea_perfume.jpeg"
 
-function ProductCard({ product, quantity, isInCart, onAddToCart, onIncrement, onDecrement }) {
+function ProductCard({ product, quantity, isInCart, onAddToCart, onIncrement, onDecrement, limitMessage }) {
     return (
         <article className="flex flex-col rounded-2xl bg-[#f7efdf] p-4 shadow-[0_0_30px_rgba(187,145,75,0.1)] sm:rounded-3xl sm:p-6">
             <div className="aspect-4/3 overflow-hidden rounded-xl bg-[#eee4cf] sm:rounded-2xl">
@@ -22,18 +22,21 @@ function ProductCard({ product, quantity, isInCart, onAddToCart, onIncrement, on
             </div>
 
             {isInCart ? (
-                <div className="mt-4 flex items-center justify-between rounded-full border border-[#cdb887] px-4 py-2.5 text-base text-[#6d5b43] sm:mt-6 sm:px-5 sm:py-3 sm:text-lg">
-                    <span>In your order</span>
-                    <div className="flex items-center gap-3 sm:gap-4">
-                        <button type="button" onClick={onDecrement} aria-label={`Remove one ${product.name}`} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#987c4d]">
-                            -
-                        </button>
-                        <span className="min-w-4 text-center font-serif text-2xl text-[#2d241b]">{quantity}</span>
-                        <button type="button" onClick={onIncrement} aria-label={`Add one ${product.name}`} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#dda947] text-xl text-[#2d241b]">
-                            +
-                        </button>
+                <>
+                    <div className="mt-4 flex items-center justify-between rounded-full border border-[#cdb887] px-4 py-2.5 text-base text-[#6d5b43] sm:mt-6 sm:px-5 sm:py-3 sm:text-lg">
+                        <span>In your order</span>
+                        <div className="flex items-center gap-3 sm:gap-4">
+                            <button type="button" onClick={onDecrement} aria-label={`Remove one ${product.name}`} className="flex h-9 w-9 items-center justify-center rounded-full border border-[#987c4d]">
+                                -
+                            </button>
+                            <span className="min-w-4 text-center font-serif text-2xl text-[#2d241b]">{quantity}</span>
+                            <button type="button" onClick={onIncrement} aria-label={`Add one ${product.name}`} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#dda947] text-xl text-[#2d241b]">
+                                +
+                            </button>
+                        </div>
                     </div>
-                </div>
+                    {limitMessage && <p className="mt-2 text-sm text-red-700" aria-live="polite">{limitMessage}</p>}
+                </>
             ) : (
                 <button
                     type="button"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import ProductView from "../components/orders/ProductView";
 import OrderSummaryView from "../components/orders/OrderSummaryView";
@@ -7,6 +7,11 @@ import PaymentView from "../components/orders/PaymentView";
 function Order() {
     const [currentStep, setCurrentStep] = useState(1)
     const [orderItems, setOrderItems] = useState([])
+    const orderTotal = orderItems.reduce((total, item) => total + item.price * item.quantity, 0) + 8
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" })
+    }, [currentStep])
 
     // function to control step - forward and backward
     function renderStep() {
@@ -22,7 +27,7 @@ function Order() {
                     />
                 )
             case 3:
-                return <PaymentView onBack={() => setCurrentStep(2)}/>
+                return <PaymentView total={orderTotal} onBack={() => setCurrentStep(2)}/>
         }
     }
 

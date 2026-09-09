@@ -2,6 +2,8 @@
 import { useState } from "react"
 import ProductCard from "../ProductCard"
 
+const MAX_BOTTLES_PER_PRODUCT = 5
+
 const products = [
     {
         id: "femme",
@@ -21,8 +23,10 @@ const products = [
 
 function ProductView({ onNext }) {
     const [cart, setCart] = useState({})
+    const [limitMessageProductId, setLimitMessageProductId] = useState("")
 
     function addToCart(product) {
+        setLimitMessageProductId("")
         setCart((currentCart) => ({
             ...currentCart,
             [product.id]: 1,
@@ -30,6 +34,14 @@ function ProductView({ onNext }) {
     }
 
     function updateQuantity(productId, change) {
+        const currentQuantity = cart[productId] || 0
+
+        if (change > 0 && currentQuantity >= MAX_BOTTLES_PER_PRODUCT) {
+            setLimitMessageProductId(productId)
+            return
+        }
+
+        setLimitMessageProductId("")
         setCart((currentCart) => {
             const nextQuantity = (currentCart[productId] || 0) + change
 
@@ -70,6 +82,7 @@ function ProductView({ onNext }) {
                         onAddToCart={() => addToCart(product)}
                         onIncrement={() => updateQuantity(product.id, 1)}
                         onDecrement={() => updateQuantity(product.id, -1)}
+                        limitMessage={limitMessageProductId === product.id ? `You can buy a maximum of ${MAX_BOTTLES_PER_PRODUCT} bottles of this product.` : ""}
                     />
                 ))}
             </div>
